@@ -30,8 +30,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
-        # Add custom claims
-        token["email"] = user.email  # 만든 User 모델에 맞게
-        # ...
+        # 만든 User 모델에 맞게
+        token["email"] = user.email  
+        token["name"] = user.name
+        token["gender"] = user.gender
+        token["age"] = user.age
+        token["introduction"] = user.introduction
 
         return token

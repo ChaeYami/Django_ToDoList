@@ -5,49 +5,58 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, **extra_fields):
         """
-        Creates and saves a User with the given email, date of
-        birth and password.
+        Creates and saves a User with the given email, email, password,
+        and additional fields.
         """
         if not email:
-            raise ValueError("Users must have an email address")
+            raise ValueError("Users must have a email")
 
         user = self.model(
             email=self.normalize_email(email),
+            **extra_fields
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, email, password=None, **extra_fields):
         """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
+        Creates and saves a superuser with the given email,
+        password, and additional fields.
         """
         user = self.create_user(
-            email,
+            email=email,
             password=password,
+            **extra_fields
         )
         user.is_admin = True
         user.save(using=self._db)
         return user
-
-
+    
+    
 class User(AbstractBaseUser):
     email = models.EmailField(
         verbose_name="email address",
         max_length=255,
         unique=True,
     )
+    password = models.CharField(max_length=128)
+    name = models.CharField(max_length=255)
+    gender = models.CharField(max_length=10)
+    age = models.IntegerField()
+    introduction = models.TextField()
+    
+    
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = "email" #  필드를 사용하여 사용자를 인증하도록 지정
+    REQUIRED_FIELDS = ['name', 'gender', 'age'] # 필요한 추가 필드
 
     def __str__(self):
         return self.email
