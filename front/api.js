@@ -73,18 +73,18 @@ async function handleLogin(){
 
 }
 
-// 로그인 인증 api (식별)
-async function handleMock(){
+// // 로그인 인증 api (식별)
+// async function handleMock(){
     
-    const response = await fetch('http://127.0.0.1:8000/users/mock/',{
-        headers:{
-            "authorization" : "Bearer "+ localStorage.getItem("access") // access token 헤더에
-        },
-        method:'GET',
-    });
+//     const response = await fetch('http://127.0.0.1:8000/users/mock/',{
+//         headers:{
+//             "authorization" : "Bearer "+ localStorage.getItem("access") // access token 헤더에
+//         },
+//         method:'GET',
+//     });
 
-    console.log(response)
-}
+//     console.log(response)
+// }
 
 // 로그아웃
 async function handlelogout(){
