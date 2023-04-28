@@ -55,7 +55,7 @@ class UserDetailView(APIView):
         else:
             return Response({"message":"권한이 없습니다!"}, status=status.HTTP_403_FORBIDDEN)
 
-    # 회원 삭제
+    # 회원 탈퇴
     def delete(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         if request.user == user:
@@ -64,15 +64,3 @@ class UserDetailView(APIView):
         else:
             return Response("권한이 없습니다!", status=status.HTTP_403_FORBIDDEN)
 
-
-class LogoutAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated] # 로그인한 유저만 로그아웃
-
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            token.blacklist() # refresh_token을 블랙리스트에 추가
-            return Response({"message": "로그아웃 되었습니다."}, status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
