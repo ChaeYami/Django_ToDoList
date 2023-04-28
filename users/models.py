@@ -3,7 +3,6 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 # Create your models here.
 
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         """
@@ -45,9 +44,11 @@ class User(AbstractBaseUser):
     )
     password = models.CharField(max_length=128)
     name = models.CharField(max_length=255)
-    gender = models.CharField(max_length=10)
-    age = models.IntegerField()
-    introduction = models.TextField()
+    genders=(('F','female'),
+             ('M','male'),)
+    gender=models.CharField(choices=genders, max_length=1,default="M")
+    age = models.IntegerField(null=True, blank=True)
+    introduction = models.TextField(null=True, blank=True)
     
     
     is_active = models.BooleanField(default=True)
@@ -56,7 +57,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = "email" #  필드를 사용하여 사용자를 인증하도록 지정
-    REQUIRED_FIELDS = ['name', 'gender', 'age'] # 필요한 추가 필드
+    REQUIRED_FIELDS = [] 
 
     def __str__(self):
         return self.email
