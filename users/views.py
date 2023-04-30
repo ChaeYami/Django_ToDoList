@@ -12,8 +12,7 @@ from users.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-# Create your views here.
-
+# ============================ 회원가입 클래스 (id,인증 불필요) ============================  
 class UserView(APIView):
     # 회원가입
     def post(self, request):  # => request.method == 'POST':
@@ -27,23 +26,26 @@ class UserView(APIView):
                 {"message": f"${serializer.errors}"}, status=status.HTTP_400_BAD_REQUEST
             )  # 에러를 반환, 잘못된 요청 상태
 
-# 로그인
+# ============================ 로그인 ============================  
 class CustomTokenObtainPairView(TokenObtainPairView):  # TokenObtainPairView 상속
     serializer_class = CustomTokenObtainPairSerializer
 
-
+# ============================ 회원정보, 수정, 탈퇴 클래스 (id,인증 필요) ============================  
 class UserDetailView(APIView):
     # 로그인 되어 있는지
     permission_classes = [permissions.IsAuthenticated]
     
-    def get(self,request, user_id):
-        user = get_object_or_404(User,id=user_id)
-        serializer = UserSerializer(user)
+    # =================== 회원 상세정보 =================== 
+    
+    def get(self,request, user_id): # => request.method == 'GET':
+        user = get_object_or_404(User,id=user_id) # user 정보 불러오기
+        serializer = UserSerializer(user) # user 시리얼라이저 불러오기
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # 회원 수정
-    def patch(self, request, user_id):  # => request.method == 'PATCH':
-        user = get_object_or_404(User, id=user_id)
+    # =================== 회원 수정 =================== 
+    
+    def patch(self, request, user_id): # => request.method == 'PATCH':
+        user = get_object_or_404(User, id=user_id) # user 정보 불러오기
         if request.user == user: # 요청한(로그인된) 사용자가 변경하려는 정보가 본인의 것이냐
             request.data.pop('email', None) # 이메일 필드를 수정할 수 없도록 처리
             serializer = UserSerializer(user, data=request.data, partial=True)
@@ -55,8 +57,9 @@ class UserDetailView(APIView):
         else:
             return Response({"message": "권한이 없습니다!"}, status=status.HTTP_403_FORBIDDEN)
 
-    # 회원 탈퇴
-    def delete(self, request, user_id):
+    # =================== 회원 탈퇴 =================== 
+    
+    def delete(self, request, user_id): # => request.method == 'DELETE':
         user = get_object_or_404(User, id=user_id)
         if request.user == user:
             user.delete()
