@@ -43,7 +43,7 @@ class User(AbstractBaseUser):
         unique=True,
     )
     password = models.CharField(max_length=128)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=15)
     genders=(('F','female'),
              ('M','male'),)
     gender=models.CharField(choices=genders, max_length=1,default="M")
