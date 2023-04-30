@@ -2,18 +2,18 @@
 
 📚 tacks
 ------
-<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">  <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">  <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
 
 ***
 
-Todo List를 DRF로 만들어보기 : 장고 심화 개인과제
+💖 Todo List를 DRF로 만들어보기 : 장고 심화 개인과제
 ------
 > 2023.04.24 ~ 2023.04.30  
   
 Django DRF 를 사용해 ToDoList 프로젝트 만들기!
 
 
-기능
+🤔 기능
 ------
 ### 회원기능
 
@@ -61,7 +61,9 @@ Django DRF 를 사용해 ToDoList 프로젝트 만들기!
     - 회원정보 수정/삭제 , 할일 조회/수정/삭제 시에 작성자 본인만 가능하도록
 2. JWT 기반 인증
     - 토큰방식, `djangorestframework_simplejwt` 라이브러리 사용
-
+3. 프론트구현
+    - 회원가입, 로그인, 로그아웃 
+    - 정보 수정(+ 권한)
 ***
 
 ERD
