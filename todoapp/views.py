@@ -40,7 +40,7 @@ class ToDoDetailView(APIView): # /todo/id/
             serializer = ToDoListSerializer(todolists)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response("권한이 없습니다.",status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"권한이 없습니다."},status=status.HTTP_400_BAD_REQUEST)
             
     # =================== 글 수정 =================== 
     
@@ -64,7 +64,7 @@ class ToDoDetailView(APIView): # /todo/id/
             else: # 유효성검사를 통과하지 못하면
                 return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         else: # 로그인된 사용자의 글이 아니라면 
-            return Response("권한이 없습니다.",status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"권한이 없습니다."},status=status.HTTP_400_BAD_REQUEST)
         
     # =================== 글 삭제 =================== 
     
@@ -72,6 +72,6 @@ class ToDoDetailView(APIView): # /todo/id/
         todolists = ToDoList.objects.get(id=todo_id) # db 불러오기
         if request.user == todolists.user: # 로그인된 사용자의 글일때만
             todolists.delete() # 삭제
-            return Response("ToDo list 삭제완료!",status=status.HTTP_204_NO_CONTENT)
+            return Response({"message":"ToDo list 삭제완료!"},status=status.HTTP_204_NO_CONTENT)
         else: # 로그인된 사용자의 글이 아니라면 
-            return Response("권한이 없습니다",status=status.HTTP_403)
+            return Response({"message":"권한이 없습니다"},status=status.HTTP_403_FORBIDDEN)

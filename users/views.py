@@ -65,5 +65,5 @@ class UserDetailView(APIView):
             user.delete()
             return Response({"message":"삭제 완료!"}, status=status.HTTP_204_NO_CONTENT)
         else:
-            return Response("권한이 없습니다!", status=status.HTTP_403_FORBIDDEN)
+            return Response({"message":"권한이 없습니다!"}, status=status.HTTP_403_FORBIDDEN)
 
