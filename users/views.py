@@ -45,6 +45,7 @@ class UserDetailView(APIView):
     def patch(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         if request.user == user: # 요청한(로그인된) 사용자가 변경하려는 정보가 본인의 것이냐
+            request.data.pop('email', None) # 이메일 필드를 수정할 수 없도록 처리
             serializer = UserSerializer(user, data=request.data, partial=True)
             if serializer.is_valid():  # 유효성 검사를 통과했을 때
                 serializer.save() # 수정

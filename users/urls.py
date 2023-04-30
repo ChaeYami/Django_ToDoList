@@ -4,7 +4,6 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from rest_framework_simplejwt.views import TokenBlacklistView
 
 urlpatterns = [
     path("signup/", views.UserView.as_view(), name="user_view"),
