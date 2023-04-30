@@ -4,6 +4,8 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from todoapp.models import ToDoList
 from todoapp.serializers import ToDoListSerializer,ToDoListCreateSerializer
+import datetime
+
 
 
 # Create your views here.
@@ -35,14 +37,20 @@ class ToDoDetailView(APIView): # /todo/id/
             
     # 글 수정
     def put(self, request,todo_id):
-        todolists = get_object_or_404(ToDoList,id=todo_id)
-        if request.user == todolists.user:
+        todolists = get_object_or_404(ToDoList,id=todo_id) # db 불러오기
+        if request.user == todolists.user: # 
             serializer = ToDoListCreateSerializer(todolists, data=request.data)
             if serializer.is_valid():
+                is_complete = serializer.validated_data.get('is_complete')
+                if is_complete:
+                    todolists.completed_at = datetime.datetime.now()
                 serializer.save(user=request.user)
                 return Response(serializer.data,status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response("권한이 없습니다.",status=status.HTTP_400_BAD_REQUEST)
+        
     # 글 삭제
     def delete(self, request,todo_id):
         todolists = ToDoList.objects.get(id=todo_id)

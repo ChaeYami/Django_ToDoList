@@ -42,7 +42,7 @@ class UserDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # 회원 수정
-    def patch(self, request, user_id):
+    def patch(self, request, user_id):  # => request.method == 'PATCH':
         user = get_object_or_404(User, id=user_id)
         if request.user == user: # 요청한(로그인된) 사용자가 변경하려는 정보가 본인의 것이냐
             request.data.pop('email', None) # 이메일 필드를 수정할 수 없도록 처리
