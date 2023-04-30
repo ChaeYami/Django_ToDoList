@@ -15,4 +15,5 @@ urlpatterns = [
         name="token_obtain_pair",
     ),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("mock/", views.mockView.as_view(), name="mock_view"),
 ]

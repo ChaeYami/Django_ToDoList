@@ -67,3 +67,8 @@ class UserDetailView(APIView):
         else:
             return Response({"message":"권한이 없습니다!"}, status=status.HTTP_403_FORBIDDEN)
 
+class mockView(APIView):
+    permission_classes = [permissions.IsAuthenticated]  # 로그인여부확인
+
+    def get(self, request):
+        return Response("get 요청")
