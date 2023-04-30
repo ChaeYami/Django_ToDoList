@@ -7,7 +7,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
-
+        # fields = ['email', 'name','gender', 'age', 'introduction'] # 회원정보 가져오기 할 때
+        
+        
     # 회원가입
     def create(self, validated_data):
         user = super().create(validated_data)
@@ -17,8 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     # 회원 정보 수정
+    
     def update(self, instance, validated_data):
-        email = serializers.EmailField(read_only=True)
+        email = instance.email
         user = super().update(instance, validated_data)
         password = validated_data.get('password')
         if password:
@@ -26,20 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()  # DB에 저장
         return user
     
-    # def update(self, instance, validated_data):
-    #     instance.name = validated_data.get('name', instance.name)
-    #     instance.email = validated_data.get('email', instance.email)
-    #     instance.gender = validated_data.get('gender', instance.gender)
-    #     instance.age = validated_data.get('age', instance.age)
-    #     instance.introduction = validated_data.get('introduction', instance.introduction)
-        
-    #     password = validated_data.get('password', None)
-    #     if password:
-    #         instance.set_password(password)  # 새로운 비밀번호 설정
-        
-    #     instance.save()  # DB에 저장
-    #     return instance
-
+   
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

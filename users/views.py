@@ -42,18 +42,17 @@ class UserDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # 회원 수정
-    def put(self, request, user_id):
+    def patch(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
-        
-        if request.user == user:
-            serializer = UserSerializer(user, data = request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"message":"수정완료!"}, status=status.HTTP_200_OK)
+        if request.user == user: # 요청한(로그인된) 사용자가 변경하려는 정보가 본인의 것이냐
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid():  # 유효성 검사를 통과했을 때
+                serializer.save() # 수정
+                return Response({"message": "수정 완료!"}, status=status.HTTP_200_OK)
             else:
-                return Response({"message":f"${serializer.errors}"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message": f"${serializer.errors}"}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({"message":"권한이 없습니다!"}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"message": "권한이 없습니다!"}, status=status.HTTP_403_FORBIDDEN)
 
     # 회원 탈퇴
     def delete(self, request, user_id):

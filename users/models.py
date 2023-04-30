@@ -56,7 +56,7 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = "email" #  필드를 사용하여 사용자를 인증하도록 지정
+    USERNAME_FIELD = "email" # 필드를 사용하여 사용자를 인증하도록 지정
     REQUIRED_FIELDS = [] 
 
     def __str__(self):
