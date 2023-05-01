@@ -26,7 +26,7 @@ async function handleUserUpdate() {
       alert("수정이 완료되었습니다.");
       window.location.reload();
     } else {
-      alert("수정에 실패했습니다. 다시 시도해주세요.");
+      alert("입력값을 확인하세요.");
     };
   };
   
