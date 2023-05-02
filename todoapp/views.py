@@ -58,6 +58,8 @@ class ToDoDetailView(APIView): # /todo/id/
                 # is_complete == True 이고 completea_at 필드가 비어있다면 --> 완료된 todo로 수정하면 (이미 완료된 todo를 수정했을 때는 시간이 업데이트 되지 않음)
                 if is_complete and completed_at == None : 
                     todolists.completed_at = datetime.datetime.now() # 완료 시간 
+                elif not is_complete:
+                    todolists.completed_at = None
                 serializer.save(user=request.user) # db에 저장
                 return Response(serializer.data,status=status.HTTP_201_CREATED)
             
